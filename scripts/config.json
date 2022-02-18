@@ -8,6 +8,6 @@
 	"UseProcesses": 0,
 	"FlattenedToLevel": "patient",
 	"is16Bit":true,
-	"SendEmail": true,
+	"SendEmail": false,
 	"YourEmail": "test@test.test"
 }

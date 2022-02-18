@@ -13,4 +13,4 @@
 # limitations under the License.
 
 cd /app
-python3 /app/Niffler/modules/png-extraction/ImageExtractor.py --DICOMHome ${INPUTS} --OutputDirectory ${OUTPUTS} --Depth 0 --PrintImages true --is16Bit false --CommonHeadersOnly true --SplitIntoChunks 5 --FlattenedToLevel patient
+python3 /app/Niffler/modules/png-extraction/ImageExtractor.py --DICOMHome ${INPUTS} --OutputDirectory ${OUTPUTS} --Depth 0 --PrintImages true --is16Bit false --CommonHeadersOnly true --SplitIntoChunks 1 --FlattenedToLevel patient

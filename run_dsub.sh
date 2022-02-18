@@ -29,7 +29,7 @@ MIN_CORES=${5:-4}
 DISK_SIZE=${6:-200}
 LOGGING_PATH=${7:-gs://jk-dsub-staging/logging}
 
-LOGGING_PATH=$LOGGING_PATH/$(date +"%Y-%m-%d-%S")
+LOGGING_PATH=$LOGGING_PATH/$(date +"%Y-%m-%d-%M-%S")
 
 
 dsub \
