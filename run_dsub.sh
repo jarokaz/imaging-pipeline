@@ -21,30 +21,32 @@ readonly POLLING_INTERVAL=30s
 readonly IMAGE=gcr.io/jk-mlops-dev/image-processor:latest
 readonly SCRIPT=./scripts/process_images.sh
 
-TASKS=${1:-./tasks.tsv}
+TASKS=${1:-tasks.tsv}
 PROJECT=${2:-jk-mlops-dev}
 REGION=${3:-us-central1}
 MIN_RAM=${4:-16}
 MIN_CORES=${5:-4}
 DISK_SIZE=${6:-200}
-LOGGING=${7:-gs://jk-dsub-staging/logging}
+LOGGING_PATH=${7:-gs://jk-dsub-staging/logging}
 
+LOGGING_PATH=$LOGGING_PATH/$(date +"%Y-%m-%d-%S")
 
-echo $TASKS
-
-exit 0
 
 dsub \
 --provider $DSUB_PROVIDER \
+--script $SCRIPT \
 --project $PROJECT \
 --regions $REGION \
---image $IMAGE \
---logging $LOGGING \
 --min-ram $MIN_RAM \
 --min-cores $MIN_CORES \
 --disk-size $DISK_SIZE \
---script $SCRIPT \
---tasks $TASKS 
+--image $IMAGE \
+--logging $LOGGING_PATH \
+--tasks $TASKS
+
+
+
+
 
 
 
