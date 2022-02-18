@@ -1,0 +1,2 @@
+--input-recursive	--output-recursive
+INPUTS gs://jk-imaging/inputs/shard1	OUTPUTS gs://jk-imaging/outputs/shard1/
