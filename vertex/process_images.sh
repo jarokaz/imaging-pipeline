@@ -63,7 +63,7 @@ if [[ "${#paths[@]}" < "$worker_index" ]]; then
     exit 0
 fi
 
-input_path="${paths[$worker_index]}"
+input_path="${paths[${worker_index}]}"
 output_path="${2}/worker-${worker_index}"
 
 readonly CHUNKS=1
@@ -80,7 +80,7 @@ if [[ "$use_fuse" != "true" ]]
 then
     inputs=/tmp/inputs; mkdir "$inputs"
     outputs=/tmp/outputs; mkdir "$outputs"
-    echo "Copying data from ${1} to ${inputs}"
+    echo "Copying data from ${input_path} to ${inputs}"
     start_time=$(date +%s)
     gcloud alpha storage cp -r "${input_path}/*" "$inputs" --no-user-output-enabled
     end_time=$(date +%s)
@@ -102,9 +102,11 @@ python3 /app/Niffler/modules/png-extraction/ImageExtractor.py --DICOMHome ${inpu
 end_time=$(date +%s)
 echo "Elapsed time: $(( end_time - start_time ))"
 
+# TODO. Check the Niffler logs and fail the job if any errors
+
 if [[ "$use_fuse" != "true" ]]
 then
-    echo "Copying from ${outputs} to ${2}"
+    echo "Copying from ${outputs} to ${output_path}"
     start_time=$(date +%s)
     gcloud alpha storage cp -r "$outputs" "${output_path}" --no-user-output-enabled
     end_time=$(date +%s)
