@@ -21,5 +21,7 @@ ADD scripts/config.json ./
 
 ENV PYTHONPATH=/app/Niffler
 
+ENTRYPOINT ["python", "/app/Niffler/modules/png-extraction/ImageExtractor.py"]
+
 
 

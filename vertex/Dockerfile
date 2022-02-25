@@ -12,17 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FROM google/cloud-sdk:latest
 
-export INPUTS=/inputs/kaggle-xray-seq
-export OUTPUTS=/outputs/t1
-export CHUNKS=6 
+RUN pip3 install absl-py
 
-echo "Starting the pipeline on: $(date)"
-pipeline_start_time=$(date +%s)
+WORKDIR /app
+RUN git clone https://github.com/Emory-HITI/Niffler.git
+RUN cd Niffler && pip install -r requirements.txt
+ADD process_images.sh ./
+ADD config.json ./
+RUN chmod 755 process_images.sh
 
-python3 /app/Niffler/modules/png-extraction/ImageExtractor.py --DICOMHome ${INPUTS} --OutputDirectory ${OUTPUTS} --Depth 0 --PrintImages true --is16Bit false --CommonHeadersOnly true --SplitIntoChunks ${CHUNKS} --FlattenedToLevel patient
+ENV PYTHONPATH=/app/Niffler
 
-pipeline_end_time=$(date +%s)
+ENTRYPOINT [ "/app/process_images.sh"]
 
-echo "Pipeline completed on: $(date)"
-echo "Elapsed time $(( $pipeline_end_time - $pipeline_start_time ))"
+
+

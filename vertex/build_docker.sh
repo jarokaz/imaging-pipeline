@@ -12,17 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#!/usr/bin/env bash
+set -e
 
-export INPUTS=/inputs/kaggle-xray-seq
-export OUTPUTS=/outputs/t1
-export CHUNKS=6 
+PROJECT=${1:-jk-mlops-dev}
+TAG=${2:-latest}
+IMAGE_NAME=gcr.io/${PROJECT}/dicom-processor:${TAG}
 
-echo "Starting the pipeline on: $(date)"
-pipeline_start_time=$(date +%s)
-
-python3 /app/Niffler/modules/png-extraction/ImageExtractor.py --DICOMHome ${INPUTS} --OutputDirectory ${OUTPUTS} --Depth 0 --PrintImages true --is16Bit false --CommonHeadersOnly true --SplitIntoChunks ${CHUNKS} --FlattenedToLevel patient
-
-pipeline_end_time=$(date +%s)
-
-echo "Pipeline completed on: $(date)"
-echo "Elapsed time $(( $pipeline_end_time - $pipeline_start_time ))"
+docker build --tag ${IMAGE_NAME} -f Dockerfile .
+docker push ${IMAGE_NAME}
