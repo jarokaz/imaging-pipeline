@@ -14,7 +14,7 @@
 
 FROM google/cloud-sdk:latest
 
-RUN pip3 install absl-py
+RUN pip3 install absl-py && apt-get -y install jq 
 
 WORKDIR /app
 RUN git clone https://github.com/Emory-HITI/Niffler.git

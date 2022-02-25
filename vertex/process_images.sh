@@ -48,6 +48,24 @@ if [[ "$#" != 2 ]]; then
     usage
 fi
 
+
+worker_type=$(echo "$CLUSTER_SPEC" | jq '.task.type')
+worker_index=$(echo "$CLUSTER_SPEC" | jq '.task.index')
+
+if [[ "$worker_type" != '"chief"' ]]; then
+    if [[ "$worker_type" != '"workerpool0"' ]]; then
+        worker_index=$(( worker_index + 1 ))
+    fi
+fi
+paths=(${1//","/ })
+if [[ "${#paths[@]}" < "$worker_index" ]]; then
+    echo "Number of shards smaller than a number of workers"
+    exit 0
+fi
+
+input_path="${paths[$worker_index]}"
+output_path="${2}/worker-${worker_index}"
+
 readonly CHUNKS=1
 readonly DEPTH=0
 readonly PRINT_IMAGES=true
@@ -64,14 +82,14 @@ then
     outputs=/tmp/outputs; mkdir "$outputs"
     echo "Copying data from ${1} to ${inputs}"
     start_time=$(date +%s)
-    gcloud alpha storage cp -r "${1}/*" "$inputs" --no-user-output-enabled
+    gcloud alpha storage cp -r "${input_path}/*" "$inputs" --no-user-output-enabled
     end_time=$(date +%s)
     echo "Elapsed time: $(( end_time - start_time ))"
 
 else 
     echo 'Using GCS Fuse'
-    inputs="${1/gs:\///gcs}"
-    outputs="${2/gs:\///gcs}"
+    inputs="${input_path/gs:\///gcs}"
+    outputs="${output_path/gs:\///gcs}"
     echo "Inputs in ${inputs}"
     echo "Outputs in ${outputs}"
 fi
@@ -88,7 +106,7 @@ if [[ "$use_fuse" != "true" ]]
 then
     echo "Copying from ${outputs} to ${2}"
     start_time=$(date +%s)
-    gcloud alpha storage cp -r "$outputs" "${2}" --no-user-output-enabled
+    gcloud alpha storage cp -r "$outputs" "${output_path}" --no-user-output-enabled
     end_time=$(date +%s)
     echo "Elapsed time: $(( end_time - start_time ))"
 fi

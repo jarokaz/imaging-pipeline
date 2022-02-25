@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import time
+import sys
 
 from absl import logging
 from absl import flags
@@ -38,10 +39,10 @@ flags.DEFINE_string('is_16bit', 'false', 'Niffler cis16bit')
 flags.DEFINE_string('common_headers_only', 'true', 'Niffler CommonHeadersOnly')
 flags.DEFINE_string('split_into_chunks', '1', 'Niffler SplitIntoChunks')
 flags.DEFINE_string('flattened_to_level', 'patient', 'Niffler FlattenedToLevel')
-flags.DEFINE_integer('replica_count', 1, 'Replica count')
+flags.DEFINE_integer('replica_count', 3, 'Replica count')
 
-flags.DEFINE_string('inputs', 'gs://jk-imaging/data/kaggle-xray-seq', 'Inputs')
-flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t05', 'Outputs')
+flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'Inputs')
+flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t11', 'Outputs')
 
 #flags.mark_flags_as_required([
 #    'project',
@@ -53,25 +54,37 @@ flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t05', 'Outputs')
 def _main(argv):
 
     job_name = 'PROCESS_IMAGE_{}'.format(time.strftime("%Y%m%d_%H%M%S"))
-
+    
+    machine_spec = {
+        "machine_type": FLAGS.machine_type,
+        #"accelerator_type": args.accelerator_type,
+        #"accelerator_count": args.accelerator_num,
+    }
+    container_spec = {
+        "image_uri": FLAGS.image,
+        "args": [ 
+            #"-g",
+            FLAGS.inputs,
+            FLAGS.outputs,
+        ],
+    } 
     worker_pool_specs =  [
         {
-            "machine_spec": {
-                "machine_type": FLAGS.machine_type,
-                #"accelerator_type": args.accelerator_type,
-                #"accelerator_count": args.accelerator_num,
-            },
+            "machine_spec": machine_spec, 
             "replica_count": 1,
-            "container_spec": {
-                "image_uri": FLAGS.image,
-                "args": [ 
-                    "-g",
-                    FLAGS.inputs,
-                    FLAGS.outputs,
-                ],
-            },
+            "container_spec": container_spec
         }
     ]
+    if FLAGS.replica_count > 1:
+        replica_count = FLAGS.replica_count - 1
+        worker_pool_specs.append(
+            {
+                "machine_spec": machine_spec, 
+                "replica_count": replica_count,
+                "container_spec": container_spec 
+            }
+        )
+
 
     logging.info(f'Starting job: {job_name}')
 

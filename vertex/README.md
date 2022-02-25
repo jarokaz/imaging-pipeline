@@ -2,6 +2,7 @@
 docker run -it --rm \
 -v /home/jupyter/data:/data \
 -v /home/jupyter/imaging-pipeline:/src \
+-e CLUSTER_SPEC='{"cluster":{"workerpool0":["cmle-training-workerpool0-b644f12a34-0:2222"],"workerpool1":["cmle-training-workerpool1-b644f12a34-0:2222","cmle-training-workerpool1-b644f12a34-1:2222"]},"environment":"cloud","task":{"type":"workerpool0","index":0},"job":"{\"python_module\":\"\",\"package_uris\":[],\"job_args\":[]}"} ' \
 --entrypoint /bin/bash \
 gcr.io/jk-mlops-dev/dicom-processor
 
