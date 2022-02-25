@@ -16,20 +16,19 @@
 set -o errexit
 set -o nounset
 
-trap 'exit_handler $? $LINENO' 1 2 3 15 ERR  
-
-exit_handler() {
-    echo "Error $1 occured in line $2"
-}
+#
+#trap 'exit_handler $? $LINENO' 1 2 3 15 ERR  
+#
+#exit_handler() {
+#    echo "Error $1 occured in line $2"
+#}
+#
 
 function usage {
     echo "Usage ..."
     exit 1
 }
 
-echo "$CLUSTER_SPEC"
-
-exit 0
 
 use_fuse=false
 while getopts ":g" options 
@@ -73,6 +72,8 @@ else
     echo 'Using GCS Fuse'
     inputs="${1/gs:\///gcs}"
     outputs="${2/gs:\///gcs}"
+    echo "Inputs in ${inputs}"
+    echo "Outputs in ${outputs}"
 fi
 
 echo "Starting image extraction"
