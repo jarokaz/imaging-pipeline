@@ -58,7 +58,7 @@ if [[ "$worker_type" != '"chief"' ]]; then
     fi
 fi
 paths=(${1//","/ })
-if [[ "${#paths[@]}" <= "$worker_index" ]]; then
+if (( "${#paths[@]}" <= "$worker_index" )); then
     echo "Number of shards smaller than a number of workers"
     exit 0
 fi

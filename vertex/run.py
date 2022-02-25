@@ -42,7 +42,7 @@ flags.DEFINE_string('flattened_to_level', 'patient', 'Niffler FlattenedToLevel')
 flags.DEFINE_integer('replica_count', 4, 'Replica count')
 
 flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'Inputs')
-flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t11', 'Outputs')
+flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t12', 'Outputs')
 
 #flags.mark_flags_as_required([
 #    'project',
