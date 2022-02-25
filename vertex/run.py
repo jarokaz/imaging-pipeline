@@ -39,7 +39,7 @@ flags.DEFINE_string('is_16bit', 'false', 'Niffler cis16bit')
 flags.DEFINE_string('common_headers_only', 'true', 'Niffler CommonHeadersOnly')
 flags.DEFINE_string('split_into_chunks', '1', 'Niffler SplitIntoChunks')
 flags.DEFINE_string('flattened_to_level', 'patient', 'Niffler FlattenedToLevel')
-flags.DEFINE_integer('replica_count', 3, 'Replica count')
+flags.DEFINE_integer('replica_count', 4, 'Replica count')
 
 flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'Inputs')
 flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t11', 'Outputs')
