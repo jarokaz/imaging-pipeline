@@ -28,21 +28,12 @@ logging.set_verbosity(logging.INFO)
 flags.DEFINE_string('project', 'jk-mlops-dev', 'GCP Project')
 flags.DEFINE_string('region', 'us-central1', 'GCP Region')
 flags.DEFINE_string('staging_bucket', 'gs://jk-imaging-staging', 'Staging bucket')
-flags.DEFINE_string('script', 'task.py', 'Staging bucket')
 flags.DEFINE_string('machine_type', 'n1-standard-16', 'Machine type')
 flags.DEFINE_string('image', 'gcr.io/jk-mlops-dev/dicom-processor', 'Image')
-#flags.DEFINE_string('inputs', '/gcs/jk-imaging/data/kaggle-5000', 'Inputs')
-#flags.DEFINE_string('outputs', '/gcs/jk-imaging/outputs/kaggle-5000/t1-16CPU', 'Outputs')
-flags.DEFINE_string('depth', '0', 'Niffler depth')
-flags.DEFINE_string('print_images', 'true', 'Niffler PrintImages')
-flags.DEFINE_string('is_16bit', 'false', 'Niffler cis16bit')
-flags.DEFINE_string('common_headers_only', 'true', 'Niffler CommonHeadersOnly')
-flags.DEFINE_string('split_into_chunks', '1', 'Niffler SplitIntoChunks')
-flags.DEFINE_string('flattened_to_level', 'patient', 'Niffler FlattenedToLevel')
-flags.DEFINE_integer('replica_count', 4, 'Replica count')
 
-flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'Inputs')
-flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/t12', 'Outputs')
+flags.DEFINE_integer('replica_count', 3, 'Replica count')
+flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'List of folders to process.')
+flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/test12', 'Outputs')
 
 #flags.mark_flags_as_required([
 #    'project',
@@ -57,8 +48,6 @@ def _main(argv):
     
     machine_spec = {
         "machine_type": FLAGS.machine_type,
-        #"accelerator_type": args.accelerator_type,
-        #"accelerator_count": args.accelerator_num,
     }
     container_spec = {
         "image_uri": FLAGS.image,
@@ -68,6 +57,7 @@ def _main(argv):
             FLAGS.outputs,
         ],
     } 
+
     worker_pool_specs =  [
         {
             "machine_spec": machine_spec, 
