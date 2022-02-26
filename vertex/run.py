@@ -35,12 +35,6 @@ flags.DEFINE_integer('replica_count', 3, 'Replica count')
 flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'List of folders to process.')
 flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/test12', 'Outputs')
 
-#flags.mark_flags_as_required([
-#    'project',
-#    'region',
-#    'staging_bucket'
-#])
- 
 
 def _main(argv):
 
