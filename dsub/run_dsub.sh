@@ -22,12 +22,13 @@ readonly IMAGE=gcr.io/jk-mlops-dev/image-processor:latest
 readonly SCRIPT=./scripts/process_images.sh
 
 TASKS=${1:-tasks.tsv}
-PROJECT=${2:-jk-mlops-dev}
-REGION=${3:-us-central1}
-MIN_RAM=${4:-16}
-MIN_CORES=${5:-4}
-DISK_SIZE=${6:-200}
-LOGGING_PATH=${7:-gs://jk-dsub-staging/logging}
+#RETRIES=${2:-3}
+PROJECT=${3:-jk-mlops-dev}
+REGION=${4:-us-central1}
+MIN_RAM=${5:-16}
+MIN_CORES=${6:-4}
+DISK_SIZE=${7:-200}
+LOGGING_PATH=${8:-gs://jk-dsub-staging/logging}
 
 LOGGING_PATH=$LOGGING_PATH/$(date +"%Y-%m-%d-%M-%S")
 
@@ -43,6 +44,8 @@ dsub \
 --image $IMAGE \
 --logging $LOGGING_PATH \
 --tasks $TASKS
+
+
 
 
 
