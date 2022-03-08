@@ -92,7 +92,7 @@ def run(
     """Extract PNG images and metadata from DICOM."""
     
     image_path_prefix = f'{output_path_prefix}/images'
-    metadata_path_prefix = f'{output_path_prefix}/metadata/metadata_'
+    metadata_path_prefix = f'{output_path_prefix}/metadata/metadata-'
     
     # TODO: decide how to handle input paths in a more 
     # flexible way
