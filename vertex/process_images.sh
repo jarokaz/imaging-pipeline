@@ -24,9 +24,13 @@ set -o nounset
 #}
 #
 
-function usage {
+usage () {
     echo "Usage ..."
     exit 1
+}
+
+stage_images () {
+
 }
 
 

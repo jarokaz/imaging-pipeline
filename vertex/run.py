@@ -33,7 +33,7 @@ flags.DEFINE_string('image', 'gcr.io/jk-mlops-dev/dicom-processor', 'Image')
 
 flags.DEFINE_integer('replica_count', 3, 'Replica count')
 flags.DEFINE_string('inputs', 'gs://jk-imaging/data/shard1,gs://jk-imaging/data/shard2,gs://jk-imaging/data/shard3', 'List of folders to process.')
-flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/test12', 'Outputs')
+flags.DEFINE_string('outputs', 'gs://jk-imaging/outputs/test15', 'Outputs')
 
 
 def _main(argv):
