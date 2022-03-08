@@ -16,8 +16,7 @@ FROM apache/beam_python3.8_sdk:2.37.0
 
 RUN pip install -U tensorflow pydicom python-gdcm pillow "pylibjpeg>=1.2" pylibjpeg-libjpeg pylibjpeg-openjpeg pylibjpeg-rle
 
-WORKDIR /src
-ADD process_images.py ./
+
 
 
 
