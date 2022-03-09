@@ -52,8 +52,8 @@ export REGION=us-central1
 export GCS_PATH=gs://jk-imaging
 export JOB_NAME="dicom-$(date +%Y%m%d-%H%M%S)"
 
-export DICOM_PATH=gs://jk-imaging/small_shard
-export OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t10
+export DICOM_PATH=gs://jk-imaging/data/kaggle-xray-seq
+export OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t100
 
 python  run.py \
   --dicom-path $DICOM_PATH \
