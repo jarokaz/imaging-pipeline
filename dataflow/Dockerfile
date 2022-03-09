@@ -18,6 +18,8 @@ RUN pip install -U tensorflow pydicom python-gdcm
 
 WORKDIR /app
 ADD dicom_converter dicom_converter
+ADD run.py ./
+
 ENV PYTHONPATH=/app
 
 
