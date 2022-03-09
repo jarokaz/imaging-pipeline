@@ -1,7 +1,20 @@
-# Dataflow
+# Dataflow based DICOM processer
+
+This prototype uses Dataflow custom containers.
+
+To build a container
 
 ```
-IMAGE_URL=gcr.io/jk-mlops-dev/dicom-dataflow
+./build_container.sh <YOUR PROJECT ID>
+```
+
+## Running the job
+
+To avoid Dataflow Python package compatibility issues submit the job using the same container that is used on Dataflow workers
+
+```
+PROJECT=jk-mlops-dev
+IMAGE_URL=gcr.io/$PROJECT/dicom-dataflow
 
 docker run -it --rm \
 -v /home/jupyter/imaging-pipeline/dataflow:/src \
