@@ -51,7 +51,9 @@ def parse_dicom_image(image_path: str) -> Dict:
     
     # TODO: This is just a example
     # We need to define what metadata to extract
-    # and how to handle DICOM without PixelData
+    # and how to handle DICOM without PixelData or 
+    # PixelData that cannot be extracted for whatever
+    # reason
     parsed_dicom = {}
     parsed_dicom['pixel_array'] = ds.pixel_array
     parsed_dicom['StudyID'] = str(ds['StudyID'])
