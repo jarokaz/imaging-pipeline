@@ -11,24 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-FROM apache/beam_python3.8_sdk:2.37.0
-
-RUN pip install -U tensorflow pydicom python-gdcm 
-
-WORKDIR /app
-ADD dicom_converter dicom_converter
-ENV PYTHONPATH=/app
-
-
-
-
-
-
-
-
-
-
-
-
-

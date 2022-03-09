@@ -18,6 +18,7 @@
 """
 
 import argparse
+import hashlib
 import json
 import logging
 import os
@@ -64,9 +65,10 @@ def extract_and_save_png(parsed_dicom_image: Dict, image_path_prefix: str) -> Di
     
     if 'pixel_array' in parsed_dicom_image:
         filename = pathlib.Path(parsed_dicom_image['dicom_path']).stem
-        random_number = random.randint(0,16777215)
-        hex_number = str(hex(random_number))
-        img_path = f'{image_path_prefix}/{hex_number}-{filename}.png'
+        #random_number = random.randint(0,16777215)
+        #hex_number = str(hex(random_number))
+        hash_number = hashlib.sha224(filename.encode('utf-8')).hexdigest()
+        img_path = f'{image_path_prefix}/{hash_number}-{filename}.png'
         parsed_dicom_image['png_path'] = img_path
         
         # TODO: We assume grey scale pixel data. Check for RGB
@@ -84,10 +86,10 @@ def extract_and_save_png(parsed_dicom_image: Dict, image_path_prefix: str) -> Di
 
 
 
-def run(
+def process_dicom(
     dicom_path: str,
     output_path_prefix: str,
-    beam_args: Optional[List[str]] = None,
+    pipeline_options: Optional[PipelineOptions] = None,
 ) -> None:
     """Extract PNG images and metadata from DICOM."""
     
@@ -97,8 +99,7 @@ def run(
     # TODO: decide how to handle input paths in a more 
     # flexible way
     images = [f'{dicom_path}/{filename}' for filename in tf.io.gfile.listdir(dicom_path)]
-
-    pipeline_options = PipelineOptions(beam_args, save_main_session=True)
+    
     with beam.Pipeline(options=pipeline_options) as p:
     
         _ = (p
@@ -108,27 +109,3 @@ def run(
             | "Save Metadata" >> beam.io.WriteToText(metadata_path_prefix, coder=JsonCoder())
             )
     
-
-if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.INFO)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--output-path-prefix",
-        required=True,
-        help="Path prefix for output image files. "
-        "This can be a Google Cloud Storage path.",
-    )
-    
-    parser.add_argument(
-        "--dicom-path",
-        required=True,
-        help="Path to DICOM images to process. "
-        "This can be a Google Cloud Storage path.",
-    )
-   
-
-    args, beam_args = parser.parse_known_args()
-
-
-    run(args.dicom_path, args.output_path_prefix, beam_args)
