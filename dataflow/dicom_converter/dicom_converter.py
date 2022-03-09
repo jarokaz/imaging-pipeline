@@ -65,8 +65,6 @@ def extract_and_save_png(parsed_dicom_image: Dict, image_path_prefix: str) -> Di
     
     if 'pixel_array' in parsed_dicom_image:
         filename = pathlib.Path(parsed_dicom_image['dicom_path']).stem
-        #random_number = random.randint(0,16777215)
-        #hex_number = str(hex(random_number))
         hash_number = hashlib.sha224(filename.encode('utf-8')).hexdigest()
         img_path = f'{image_path_prefix}/{hash_number}-{filename}.png'
         parsed_dicom_image['png_path'] = img_path
