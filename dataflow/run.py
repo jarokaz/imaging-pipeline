@@ -28,8 +28,6 @@ from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
 
 from dicom_converter.dicom_converter import process_dicom
 
-#_SETUP_FILE = './setup.py'
-
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
@@ -52,6 +50,5 @@ if __name__ == "__main__":
 
     args, beam_args = parser.parse_known_args()
     pipeline_options = PipelineOptions(beam_args)
-    #pipeline_options.view_as(SetupOptions).setup_file = _SETUP_FILE
     
     process_dicom(args.dicom_path, args.output_path_prefix, pipeline_options)
