@@ -28,7 +28,7 @@ constants to reflect your environment.
 export PROJECT_ID=jk-mlops-dev
 export REGION=us-central1
 
-export IMAGE_URI=gcr.io/$PROJECT_DI/dicom-dataflow:latest
+export IMAGE_URI=gcr.io/$PROJECT_ID/dicom-dataflow:latest
 export STAGING_BUCKET=gs://jk-dataflow-staging
 export TEMP_LOCATION='gs://$BUCKET/temp'
 
