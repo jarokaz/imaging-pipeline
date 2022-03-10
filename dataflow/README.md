@@ -33,8 +33,8 @@ export STAGING_BUCKET=gs://jk-dataflow-staging
 export TEMP_LOCATION='gs://$BUCKET/temp'
 
 export JOB_NAME="dicom-$(date +%Y%m%d-%H%M%S)"
-export DICOM_PATH=gs://jk-imaging/data/kaggle-xray-seq
-export OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t101
+export DICOM_PATH=gs://jk-dicom-images
+export OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t999
 
 python  run.py \
   --dicom-path $DICOM_PATH \
@@ -69,12 +69,12 @@ $IMAGE_URL
 
 ```
 
-DICOM_PATH=gs://jk-imaging/small_shard
+DICOM_PATH=gs://jk-imaging/dicom
 OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t12
 
 python  run.py \
-  --dicom-path gs://jk-imaging/small_shard \
-  --output-path-prefix gs://jk-imaging/dataflow/t12 \
+  --dicom-path $DICOM_PATH \
+  --output-path-prefix $OUTPUT_PATH_PREFIX \
   --runner DirectRunner 
 
 ```

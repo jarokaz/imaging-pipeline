@@ -96,9 +96,8 @@ def process_dicom(
     image_path_prefix = f'{output_path_prefix}/images'
     metadata_path_prefix = f'{output_path_prefix}/metadata/metadata-'
     
-    # TODO: decide how to handle input paths in a more 
-    # flexible way
-    images = [f'{dicom_path}/{filename}' for filename in tf.io.gfile.listdir(dicom_path)]
+    
+    images = tf.io.gfile.glob(dicom_path)
     
     with beam.Pipeline(options=pipeline_options) as p:
     
