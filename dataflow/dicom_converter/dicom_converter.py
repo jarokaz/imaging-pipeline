@@ -18,12 +18,13 @@
 """
 
 import argparse
-import hashlib
+
 import json
 import logging
 import os
 import pathlib
 import random
+import string
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -67,8 +68,8 @@ def extract_and_save_png(parsed_dicom_image: Dict, image_path_prefix: str) -> Di
     
     if 'pixel_array' in parsed_dicom_image:
         filename = pathlib.Path(parsed_dicom_image['dicom_path']).stem
-        hash_number = hashlib.sha224(filename.encode('utf-8')).hexdigest()
-        img_path = f'{image_path_prefix}/{hash_number}-{filename}.png'
+        random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+        img_path = f'{image_path_prefix}/{random_prefix}-{filename}.png'
         parsed_dicom_image['png_path'] = img_path
         
         # TODO: We assume grey scale pixel data. Check for RGB
