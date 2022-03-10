@@ -33,8 +33,8 @@ export STAGING_BUCKET=gs://jk-dataflow-staging
 export TEMP_LOCATION='gs://$BUCKET/temp'
 
 export JOB_NAME="dicom-$(date +%Y%m%d-%H%M%S)"
-export DICOM_PATH=gs://jk-dicom-images
-export OUTPUT_PATH_PREFIX=gs://jk-imaging/dataflow/t999
+export DICOM_PATH=gs://jk-dicom-images/folder1/*
+export OUTPUT_PATH_PREFIX=gs://jk-imaging/testing/t1
 
 python  run.py \
   --dicom-path $DICOM_PATH \

@@ -96,7 +96,6 @@ def process_dicom(
     image_path_prefix = f'{output_path_prefix}/images'
     metadata_path_prefix = f'{output_path_prefix}/metadata/metadata-'
     
-    
     images = tf.io.gfile.glob(dicom_path)
     
     with beam.Pipeline(options=pipeline_options) as p:
